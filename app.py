@@ -127,7 +127,7 @@ def cardiac():
 
     probability = str(prediction_proba)
     probability = probability[2:] # Remove the first two characters
-    probability = probability[:-2] # Remove the last two characters
+    probability = float(probability[:-13]) # Remove the last 13 characters
 
     # Parse all data for API to return
     data_fresh = {
