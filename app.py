@@ -1,5 +1,6 @@
 # Import important libraries
-from flask import Flask, request
+import json
+from flask import Flask, request, jsonify
 import numpy as np
 import pandas as pd
 from sklearn.neighbors import KNeighborsClassifier
@@ -131,8 +132,8 @@ def cardiac():
     probability = probability[2:] # Remove the first two characters
     probability = probability[:-2] # Remove the last two characters
 
-    # Return the prediction for API
-    return {
+    # Parse all data for API to return
+    data_fresh = {
         "age": age,
         "ca": ca,
         "chol": chol,
@@ -149,6 +150,8 @@ def cardiac():
         "risk": risk,
         "prediction_probability" : probability
     }
+
+    return jsonify(data_fresh)
 
 
 if __name__ == '__main__':
