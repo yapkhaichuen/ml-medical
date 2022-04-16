@@ -51,14 +51,14 @@ def cardiac():
         if 'thal' in request_data:
             thal = request_data['thal']
             # Thalassemia (3 = normal; 6 = fixed defect; 7 = reversable defect)
-    
+
     # Prepare and parse the data
-    df_heart = pd.read_csv('heart.csv')
+    df_heart = pd.read_csv('/home/khaichuen/ml-medical/heart.csv')
     dups_data = df_heart.duplicated()
     data_heart = df_heart.drop_duplicates()
     X = data_heart.drop('target',axis=1)
     Y = data_heart['target']
-    
+
     # Define data
     def user_input_features():
         age_fresh = age
@@ -88,23 +88,23 @@ def cardiac():
                 'ca': ca_fresh,
                 'thal': thal_fresh
                 }
-        
+
         features = pd.DataFrame(data, index=[0])
         return features
-    
+
     df = user_input_features()
     print(df)
-    
+
     # Create the model
     knn = KNeighborsClassifier(n_neighbors=35)
     knn.fit(X,Y)
     prediction = knn.predict(df)
-    
+
     # Return the prediction
     heart_attack_clf = np.array(['Low Risk', 'High Risk'])
     print(heart_attack_clf[prediction])
     prediction_proba = knn.predict_proba(df)
-    
+
     risk = str(heart_attack_clf[prediction])
     risk = risk[2:] # Remove the first two characters
     risk = risk[:-2] # Remove the last two characters
