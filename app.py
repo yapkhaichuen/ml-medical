@@ -17,10 +17,10 @@ def cardiac():
             # Patient age in years
         if 'sex' in request_data:
             sex = request_data['sex']
-            # Patient gender ( 1 = male; 0 = female)
+            # Patient gender ( 0 = female; 1 = male)
         if 'cp' in request_data:
             cp = request_data['cp']
-            # Chest pain type ( 1 = typical angina, 2 = atypical angina, 3 = non-aginal pain, 4 = asymptomatic)
+            # Chest pain type ( 0 = typical angina, 1 = atypical angina, 2 = non-aginal pain, 3 = asymptomatic)
         if 'trestbps' in request_data:
             trestbps = request_data['trestbps']
             # Resting blood pressure (in mm Hg on admission to the hospital or self testing)
@@ -29,7 +29,7 @@ def cardiac():
             # Serum cholestoral in mg/dl
         if 'fbs' in request_data:
             fbs = request_data['fbs']
-            # Fasting blood sugar > 120 mg/dl (1 = true; 0 = false)
+            # Fasting blood sugar > 120 mg/dl (0 = false; 1 = true)
         if 'restecg' in request_data:
             restecg = request_data['restecg']
             # Resting electrocardiographic results (0 = normal, 1 = having ST-T wave abnormality (T wave inversions and/or ST elevation or depression of > 0.05 mV), 2 = showing probable or definite left ventricular hypertrophy by Estes' criteria)
@@ -38,19 +38,19 @@ def cardiac():
             # Maximum heart rate achieved
         if 'exang' in request_data:
             exang = request_data['exang']
-            # Chest pain (angina) after exercise (1 = yes; 0 = no)
+            # Chest pain (angina) after exercise (0 = false; 1 = true)
         if 'oldpeak' in request_data:
             oldpeak = request_data['oldpeak']
             # ST depression induced by exercise relative to rest (in mm Hg)
         if 'slope' in request_data:
             slope = request_data['slope']
-            # Slope of peak exercise ST segment (1 = upsloping, 2 = flat, 3 = downsloping)
+            # Slope of peak exercise ST segment (0 = upsloping, 1 = flat, 2 = downsloping)
         if 'ca' in request_data:
             ca = request_data['ca']
             # Number of major vessels (0-3) colored by flourosopy
         if 'thal' in request_data:
             thal = request_data['thal']
-            # Thalassemia (3 = normal; 6 = fixed defect; 7 = reversable defect)
+            # Thalassemia (0 = normal; 1 = fixed defect; 2 = reversable defect)
 
     # Prepare and parse the data
     df_heart = pd.read_csv('/home/khaichuen/ml-medical/heart.csv')
