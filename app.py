@@ -1,15 +1,11 @@
 # Import important libraries
-import json
 from flask import Flask, request, jsonify
 import numpy as np
 import pandas as pd
 from sklearn.neighbors import KNeighborsClassifier
-#from flask_cors import CORS
 
 # Create the Flask app
 app = Flask(__name__)
-#CORS(app)
-
 
 # Home page
 @app.route('/')
@@ -22,9 +18,6 @@ def home():
             <li>/cardiac</li>
         </ul>
     """
-    
-
-
 
 # Heart attack prediction
 @app.route('/cardiac', methods=['POST'])
@@ -150,8 +143,8 @@ def cardiac():
         "risk": risk,
         "prediction_probability" : probability
     }
-
     return jsonify(data_fresh)
+
 
 
 if __name__ == '__main__':
