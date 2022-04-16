@@ -109,7 +109,6 @@ def cardiac():
         return features
 
     df = user_input_features()
-    print(df)
 
     # Create the model
     knn = KNeighborsClassifier(n_neighbors=35)
@@ -126,7 +125,11 @@ def cardiac():
         risk = 'High Risk'
     else:
         risk = 'Low Risk'
-        
+
+    print(df)
+    print(risk)
+    print(probability)
+    
     # Parse all data for API to return
     data_fresh = {
         "age": age,
