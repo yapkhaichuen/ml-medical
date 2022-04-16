@@ -19,6 +19,7 @@ def home():
         <p>Please use the following endpoints to access the ML-Medical API.</p>
         <ul>
             <li>/cardiac</li>
+            <li>/diabetes</li>
         </ul>
     """
 
