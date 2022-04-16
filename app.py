@@ -7,6 +7,21 @@ from sklearn.neighbors import KNeighborsClassifier
 # Create the Flask app
 app = Flask(__name__)
 
+# Home page
+@app.route('/')
+def home():
+    return """
+        <p>Welcome to the ML-Medical API.</h1>
+        <p>However this is not what you're looking for.</h1>
+        <p>Please use the following endpoints to access the ML-Medical API.</p>
+        <ul>
+            <li>/cardiac</li>
+        </ul>
+    """
+    
+
+
+
 # Heart attack prediction
 @app.route('/cardiac', methods=['POST'])
 def cardiac():
