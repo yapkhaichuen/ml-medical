@@ -7,7 +7,7 @@ from sklearn.neighbors import KNeighborsClassifier
 #from flask_cors import CORS
 
 # Create the Flask app
-#app = Flask(__name__)
+app = Flask(__name__)
 #CORS(app)
 
 
