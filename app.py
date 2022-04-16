@@ -151,7 +151,7 @@ def cardiac():
 
 # Diabetes prediction
 @app.route('/diabetes', methods=['POST'])
-def cardiac():
+def diabetes():
     request_data = request.get_json()
     if request_data:
         if 'age' in request_data:
