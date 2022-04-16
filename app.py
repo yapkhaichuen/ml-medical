@@ -117,18 +117,16 @@ def cardiac():
     prediction = knn.predict(df)
 
     # Return the prediction
-    heart_attack_clf = np.array(['Low Risk', 'High Risk'])
-    print(heart_attack_clf[prediction])
     prediction_proba = knn.predict_proba(df)
-
-    risk = str(heart_attack_clf[prediction])
-    risk = risk[2:] # Remove the first two characters
-    risk = risk[:-2] # Remove the last two characters
-
     probability = str(prediction_proba)
     probability = probability[2:] # Remove the first two characters
     probability = float(probability[:-13]) # Remove the last 13 characters
 
+    if probability > 0.5:
+        risk = 'High Risk'
+    else:
+        risk = 'Low Risk'
+        
     # Parse all data for API to return
     data_fresh = {
         "age": age,
