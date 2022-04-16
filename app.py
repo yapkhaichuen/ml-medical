@@ -3,6 +3,9 @@ from flask import Flask, request, jsonify
 import numpy as np
 import pandas as pd
 from sklearn.neighbors import KNeighborsClassifier
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
+from sklearn.ensemble import RandomForestClassifier
 
 # Create the Flask app
 app = Flask(__name__)
@@ -145,7 +148,105 @@ def cardiac():
     }
     return jsonify(data_fresh)
 
+# Diabetes prediction
+@app.route('/diabetes', methods=['POST'])
+def cardiac():
+    request_data = request.get_json()
+    if request_data:
+        if 'age' in request_data:
+            age = request_data['age']
+            # Patient age in years
+        if 'gender' in request_data:
+            gender = request_data['gender']
+            # Patient gender ( 0 = female; 1 = male)
+        if 'polyuria' in request_data:
+            polyuria = request_data['polyuria']
+            # Excessive urination ( 0 = false, 1 = true)
+        if 'polydipsia' in request_data:
+            polydipsia = request_data['polydipsia']
+            # Extreme thirst ( 0 = false, 1 = true)
+        if 'weight' in request_data:
+            weight = request_data['weight']
+            # Sudden weight loss ( 0 = false, 1 = true)
+        if 'weakness' in request_data:
+            weakness = request_data['weakness']
+            # Feeling weak with no reason ( 0 = false, 1 = true)
+        if 'polyphagia' in request_data:
+            polyphagia = request_data['polyphagia']
+            # Eating excessive amounts of food ( 0 = false, 1 = true)
+        if 'genital_thrush' in request_data:
+            genital_thrush = request_data['genital_thrush']
+            # Yeast infection in the genital area ( 0 = false, 1 = true)
+        if 'visual_blurring' in request_data:
+            visual_blurring = request_data['visual_blurring']
+            # High blood sugar causes the lens of the eye to swell, which changes your ability to see ( 0 = false, 1 = true)
+        if 'itching' in request_data:
+            itching = request_data['itching']
+            # Itching with no reason ( 0 = false, 1 = true)
+        if 'irritability' in request_data:
+            irritability = request_data['irritability']
+            # Irritability with no reason ( 0 = false, 1 = true)
+        if 'delayed_healing' in request_data:
+            delayed_healing = request_data['delayed_healing']
+            # Delayed healing of the skin and/or mucous membranes ( 0 = false, 1 = true)
+        if 'partial_paresis' in request_data:
+            partial_paresis = request_data['partial_paresis']
+            # Weakening of a muscle or group of muscles ( 0 = false, 1 = true)
+        if 'muscle_stiffness' in request_data:
+            muscle_stiffness = request_data['muscle_stiffness']
+            # Feeling stiff in the limbs ( 0 = false, 1 = true)
+        if 'alopecia' in request_data:
+            alopecia = request_data['alopecia']
+            # Hair loss ( 0 = false, 1 = true)
+        if 'obesity' in request_data:
+            obesity = request_data['obesity']
+            # Obesity ( 0 = false, 1 = true)
+    
+    # Importing the dataset
+    actual_patient_data = pd.read_csv('/home/khaichuen/ml-medical/diabetes.csv')
+    converted_data=pd.get_dummies(actual_patient_data, prefix=['Gender', 'Polyuria', 'Polydipsia', 'sudden weight loss',
+           'weakness', 'Polyphagia', 'Genital thrush', 'visual blurring',
+           'Itching', 'Irritability', 'delayed healing', 'partial paresis',
+           'muscle stiffness', 'Alopecia', 'Obesity', 'class'], drop_first=True)
 
+    # Training the model
+    X_train, X_test, y_train, y_test = train_test_split(converted_data.drop('class_Positive', axis=1),converted_data['class_Positive'], test_size=0.3, random_state=0)
+    
+    sc=StandardScaler()
+    X_train = sc.fit_transform(X_train)
+    X_test = sc.transform(X_test)
+
+    RF_classifier = RandomForestClassifier(n_estimators = 10, criterion = 'entropy', random_state = 0)
+    RF_classifier.fit(X_train, y_train)
+
+    process_prediction = RF_classifier.predict(sc.transform(np.array([[int(age),int(gender),int(polyuria),int(polydipsia),int(weight),int(weakness),int(polyphagia),int(genital_thrush),int(visual_blurring),int(itching),int(irritability), int(delayed_healing),int(partial_paresis),int(muscle_stiffness),int(alopecia),int(obesity)]])))
+
+    if process_prediction == 1:
+        prediction = 'High risk'
+    else:
+        prediction = 'Low risk'
+
+    data = {
+        "age" : age,
+        "gender" : gender,
+        "polyuria" : polyuria,
+        "polydipsia" : polydipsia,
+        "weight": weight,
+        "weakness": weakness,
+        "polyphagia": polyphagia,
+        "genital_thrush": genital_thrush,
+        "visual_blurring": visual_blurring,
+        "itching": itching,
+        "irritability": irritability,
+        "delayed_healing": delayed_healing,
+        "partial_paresis": partial_paresis,
+        "muscle_stiffness": muscle_stiffness,
+        "alopecia": alopecia,
+        "obesity": obesity,
+        "prediction": prediction
+    }
+
+    return jsonify(data)
 
 if __name__ == '__main__':
     # run app in debug mode on port 5000
