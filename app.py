@@ -69,7 +69,7 @@ def cardiac():
             # Thalassemia (0 = normal; 1 = fixed defect; 2 = reversable defect)
 
     # Prepare and parse the data
-    df_heart = pd.read_csv('/home/khaichuen/ml-medical/heart.csv')
+    df_heart = pd.read_csv('heart.csv')
     dups_data = df_heart.duplicated()
     data_heart = df_heart.drop_duplicates()
     X = data_heart.drop('target',axis=1)
@@ -118,17 +118,25 @@ def cardiac():
     # Return the prediction
     prediction_proba = knn.predict_proba(df)
     probability = str(prediction_proba)
-    probability = probability[2:] # Remove the first two characters
-    probability = float(probability[:-13]) # Remove the last 13 characters
+    probability_new = probability.replace(']','')
 
-    if probability > 0.5:
+    # Hacky way to get the probability of the prediction (might change later)
+    if len(probability_new) == 9:
+        probability_final = float(probability_new[6:]) # Remove the first 11 and last 1 characters
+    else:
+        probability_final = float(probability_new[13:][:-1]) # Remove the first 11 and last 1 characters
+
+    # Return the prediction based on the probability
+    if probability_final > 0.5:
         risk = 'High Risk'
     else:
         risk = 'Low Risk'
 
+    # Server log
     print(df)
-    print(risk)
-    print(probability)
+    print("Risk = " + risk)
+    print(prediction_proba)
+    print(probability_final)
     
     # Parse all data for API to return
     data_fresh = {
@@ -146,7 +154,7 @@ def cardiac():
         "thalach": thalach,
         "trestbps": trestbps,
         "risk": risk,
-        "prediction_probability" : probability
+        "prediction_probability" : probability_final
     }
     return jsonify(data_fresh)
 
