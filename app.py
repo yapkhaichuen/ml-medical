@@ -158,8 +158,8 @@ def diabetes():
         if 'age' in request_data:
             age = request_data['age']
             # Patient age in years
-        if 'gender' in request_data:
-            gender = request_data['gender']
+        if 'sex' in request_data:
+            sex = request_data['sex']
             # Patient gender ( 0 = female; 1 = male)
         if 'polyuria' in request_data:
             polyuria = request_data['polyuria']
@@ -206,7 +206,7 @@ def diabetes():
     
     # Importing the dataset
     actual_patient_data = pd.read_csv('/home/khaichuen/ml-medical/diabetes.csv')
-    converted_data=pd.get_dummies(actual_patient_data, prefix=['Gender', 'Polyuria', 'Polydipsia', 'sudden weight loss',
+    converted_data=pd.get_dummies(actual_patient_data, prefix=['Sex', 'Polyuria', 'Polydipsia', 'sudden weight loss',
            'weakness', 'Polyphagia', 'Genital thrush', 'visual blurring',
            'Itching', 'Irritability', 'delayed healing', 'partial paresis',
            'muscle stiffness', 'Alopecia', 'Obesity', 'class'], drop_first=True)
@@ -221,7 +221,7 @@ def diabetes():
     RF_classifier = RandomForestClassifier(n_estimators = 10, criterion = 'entropy', random_state = 0)
     RF_classifier.fit(X_train, y_train)
 
-    process_prediction = RF_classifier.predict(sc.transform(np.array([[int(age),int(gender),int(polyuria),int(polydipsia),int(weight),int(weakness),int(polyphagia),int(genital_thrush),int(visual_blurring),int(itching),int(irritability), int(delayed_healing),int(partial_paresis),int(muscle_stiffness),int(alopecia),int(obesity)]])))
+    process_prediction = RF_classifier.predict(sc.transform(np.array([[int(age),int(sex),int(polyuria),int(polydipsia),int(weight),int(weakness),int(polyphagia),int(genital_thrush),int(visual_blurring),int(itching),int(irritability), int(delayed_healing),int(partial_paresis),int(muscle_stiffness),int(alopecia),int(obesity)]])))
 
     if process_prediction == 1:
         prediction = 'High risk'
@@ -230,7 +230,7 @@ def diabetes():
 
     data = {
         "age" : age,
-        "gender" : gender,
+        "gender" : sex,
         "polyuria" : polyuria,
         "polydipsia" : polydipsia,
         "weight": weight,
