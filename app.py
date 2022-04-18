@@ -69,7 +69,7 @@ def cardiac():
             # Thalassemia (0 = normal; 1 = fixed defect; 2 = reversable defect)
 
     # Prepare and parse the data
-    df_heart = pd.read_csv('heart.csv')
+    df_heart = pd.read_csv('/home/khaichuen/ml-medical/heart.csv')
     dups_data = df_heart.duplicated()
     data_heart = df_heart.drop_duplicates()
     X = data_heart.drop('target',axis=1)
