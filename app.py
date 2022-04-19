@@ -244,7 +244,7 @@ def diabetes():
 
     data = {
         "age" : age,
-        "gender" : sex,
+        "sex" : sex,
         "polyuria" : polyuria,
         "polydipsia" : polydipsia,
         "weight": weight,
@@ -319,14 +319,15 @@ def hypertension():
         return features
     
     data = {'Age': age,
-                'Bmi': bmi,
-                'Drinking': drinking,
-                'Exercise': exercise,
-                'Gender': sex,
-                'Junk': junk,
-                'Sleep': sleep,
-                'Smoking': smoking
-                }
+            'Bmi': bmi,
+            'Drinking': drinking,
+            'Exercise': exercise,
+            'Sex': sex,
+            'Junk': junk,
+            'Sleep': sleep,
+            'Smoking': smoking
+            }
+
     print(data)
     
     df_input = user_input_features()
