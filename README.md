@@ -5,6 +5,7 @@ Flask APIs made to processing incoming API request for medical data to return ma
 Currently available API endpoints:
 - /cardiac
 - /diabetes
+- /hypertension
 
 Data provided by:
 - [UCI - Heart Disease Dataset](https://archive.ics.uci.edu/ml/datasets/Heart+Disease)
