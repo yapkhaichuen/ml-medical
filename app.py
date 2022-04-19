@@ -259,7 +259,7 @@ def diabetes():
         "muscle_stiffness": muscle_stiffness,
         "alopecia": alopecia,
         "obesity": obesity,
-        "result": prediction
+        "risk": prediction
     }
 
     return jsonify(data)
