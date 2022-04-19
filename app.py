@@ -6,6 +6,7 @@ from sklearn.neighbors import KNeighborsClassifier
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 from sklearn.ensemble import RandomForestClassifier
+from sklearn.ensemble import RandomForestRegressor
 
 # Create the Flask app
 app = Flask(__name__)
@@ -67,6 +68,8 @@ def cardiac():
         if 'thal' in request_data:
             thal = request_data['thal']
             # Thalassemia (0 = normal; 1 = fixed defect; 2 = reversable defect)
+
+    print("Cardiac activated")
 
     # Prepare and parse the data
     df_heart = pd.read_csv('/home/khaichuen/ml-medical/heart.csv')
@@ -211,7 +214,9 @@ def diabetes():
         if 'obesity' in request_data:
             obesity = request_data['obesity']
             # Obesity ( 0 = false, 1 = true)
-    
+
+    print("Diabetes activated")
+
     # Importing the dataset
     actual_patient_data = pd.read_csv('/home/khaichuen/ml-medical/diabetes.csv')
     converted_data=pd.get_dummies(actual_patient_data, prefix=['Sex', 'Polyuria', 'Polydipsia', 'sudden weight loss',
@@ -257,6 +262,136 @@ def diabetes():
     }
 
     return jsonify(data)
+
+@app.route('/hypertension', methods=['POST'])
+def hypertension():
+    request_data = request.get_json()
+    if request_data:
+        if 'age' in request_data:
+            age = request_data['age']
+            # Patient age in years
+        if 'bmi' in request_data:
+            bmi = request_data['bmi']
+            # BMI index 10-50 range no more no less
+        if 'drinking' in request_data:
+            drinking = request_data['drinking']
+            # Drinking status: 0 = no, 1 = yes
+        if 'exercise' in request_data:
+            exercise = request_data['exercise']
+            # Exercise time in hours/week 1-3
+        if 'sex' in request_data:
+            sex = request_data['sex']
+            # gender 1 = male, 0 = female
+        if 'junk' in request_data:
+            junk = request_data['junk']
+            # junk food consumption 1-3 times a week
+        if 'sleep' in request_data:
+            sleep = request_data['sleep']
+            # sleep rating score 1-3
+        if 'smoking' in request_data:
+            smoking = request_data['smoking']
+            # smoking status: 0 = no, 1 = yes
+    
+    print("Hypertension activated")
+
+    def user_input_features():
+        Age = age
+        Bmi = bmi
+        #Drinking = st.sidebar.slider('DRINKING ', 0, 1, 0)
+        Drinking = drinking
+        #Exercise = st.sidebar.slider('EXERCISE PER WEEK', 1, 3, 1)
+        Exercise = exercise
+        Gender = sex
+        Junk = junk
+        Sleep = sleep
+        Smoking = smoking
+        data = {'Age': Age,
+                'Bmi': Bmi,
+                'Drinking': Drinking,
+                'Exercise': Exercise,
+                'Gender': Gender,
+                'Junk': Junk,
+                'Sleep': Sleep,
+                'Smoking': Smoking,
+                }
+        features = pd.DataFrame(data, index=[0])
+        return features
+    
+    data = {'Age': age,
+                'Bmi': bmi,
+                'Drinking': drinking,
+                'Exercise': exercise,
+                'Gender': sex,
+                'Junk': junk,
+                'Sleep': sleep,
+                'Smoking': smoking
+                }
+    print(data)
+    
+    df_input = user_input_features()
+
+
+    df = pd.read_csv('/home/khaichuen/ml-medical/hypertension.csv')
+    X = df.iloc[:, 0:8].values
+    y = df.iloc[:, 8:11].values
+
+    from sklearn.model_selection import train_test_split
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.2, random_state = 0)
+
+    from sklearn.preprocessing import StandardScaler as ss
+    sc = ss()
+    X_train = sc.fit_transform(X_train)
+    X_test = sc.transform(X_test)
+
+
+    classifier= RandomForestRegressor(n_estimators = 300, random_state = 0)
+    classifier.fit(X_train,y_train)
+
+    prediction = classifier.predict(df_input)
+    #prediction_proba = classifier.score(X_test, y_test)
+
+    ans = prediction.flatten()
+    a = ans[0] #depression
+    b = ans[1] #diabetes is not considered due to another page alredy 
+    c = ans[2] #hypertension
+    if(a<50 and b<50 and c<50):
+        result = "Fit and healthy"
+    elif(a>50 and a<70 and a>b and a>c):
+        result = 'Low risk of depression'
+    elif(b>50 and b<70 and b>c and b>a):
+        result = 'High risk of hyperglycemia'
+    elif(c>50 and c<70 and c>a and c>b):
+        result = "Low risk of hypertension"       
+    elif(a>50 and a>b and a>c):
+        result = "High risk of depression"
+    elif (b>50 and b>a and b>c):
+         result = "High risk of hyperglycemia "
+    elif (c>50 and c>a and c>b):     
+         result = "High risk of hypertension"
+
+    prediction_proba = classifier.score(X_test,y_test)
+    
+    print(prediction_proba)
+    print(result)
+
+    data_fresh = {
+        "age": age,
+        "bmi": bmi,
+        "drinking": drinking,
+        "exercise": exercise,
+        "sex": sex,
+        "junk": junk,
+        "sleep": sleep,
+        "smoking": smoking,
+        "risk": result,
+        "probability": prediction_proba
+    }
+
+    return jsonify(data_fresh)
+
+
+
+
 
 if __name__ == '__main__':
     # run app in debug mode on port 5000
