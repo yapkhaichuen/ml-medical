@@ -259,7 +259,7 @@ def diabetes():
         "muscle_stiffness": muscle_stiffness,
         "alopecia": alopecia,
         "obesity": obesity,
-        "prediction": prediction
+        "result": prediction
     }
 
     return jsonify(data)
@@ -386,7 +386,7 @@ def hypertension():
         "sleep": sleep,
         "smoking": smoking,
         "risk": result,
-        "probability": prediction_proba
+        "prediction_probability": prediction_proba
     }
 
     return jsonify(data_fresh)
