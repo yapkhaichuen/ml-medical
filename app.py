@@ -238,9 +238,9 @@ def diabetes():
     process_prediction = RF_classifier.predict(sc.transform(np.array([[int(age),int(sex),int(polyuria),int(polydipsia),int(weight),int(weakness),int(polyphagia),int(genital_thrush),int(visual_blurring),int(itching),int(irritability), int(delayed_healing),int(partial_paresis),int(muscle_stiffness),int(alopecia),int(obesity)]])))
 
     if process_prediction == 1:
-        prediction = 'High risk'
+        prediction = 'High Risk'
     else:
-        prediction = 'Low risk'
+        prediction = 'Low Risk'
 
     data = {
         "age" : age,
@@ -357,19 +357,19 @@ def hypertension():
     b = ans[1] #diabetes is not considered due to another page alredy 
     c = ans[2] #hypertension
     if(a<50 and b<50 and c<50):
-        result = "Fit and healthy"
+        result = "Fit and Healthy"
     elif(a>50 and a<70 and a>b and a>c):
-        result = 'Low risk of depression'
+        result = 'Low Risk of Depression'
     elif(b>50 and b<70 and b>c and b>a):
-        result = 'High risk of hyperglycemia'
+        result = 'High Risk of Hyperglycemia'
     elif(c>50 and c<70 and c>a and c>b):
-        result = "Low risk of hypertension"       
+        result = "Low Risk of Hypertension"       
     elif(a>50 and a>b and a>c):
-        result = "High risk of depression"
+        result = "High Risk of Depression"
     elif (b>50 and b>a and b>c):
-         result = "High risk of hyperglycemia "
+         result = "High Risk of Hyperglycemia "
     elif (c>50 and c>a and c>b):     
-         result = "High risk of hypertension"
+         result = "High Risk of Hypertension"
 
     prediction_proba = classifier.score(X_test,y_test)
     
