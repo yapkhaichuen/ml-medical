@@ -21,6 +21,7 @@ def home():
         <ul>
             <li>/cardiac</li>
             <li>/diabetes</li>
+            <li>/hypertension</li>
         </ul>
     """
 
@@ -388,10 +389,6 @@ def hypertension():
     }
 
     return jsonify(data_fresh)
-
-
-
-
 
 if __name__ == '__main__':
     # run app in debug mode on port 5000
