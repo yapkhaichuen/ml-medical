@@ -452,7 +452,7 @@ def hypertension():
         "sleep": sleep,
         "smoking": smoking,
         "risk": result,
-        "prediction_probability": prediction_proba,
+        "prediction_probability": prediction_proba
     }
     return jsonify(data_fresh)
 
