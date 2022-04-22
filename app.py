@@ -7,6 +7,12 @@ from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.ensemble import RandomForestRegressor
+import pytz
+import datetime
+
+# Timezone logged to KL time for server refrence and logs
+KL = pytz.timezone("Asia/Kuala_Lumpur")
+current_time = str(datetime.datetime.now(KL))
 
 # Create the Flask app
 app = Flask(__name__)
@@ -70,7 +76,7 @@ def cardiac():
             thal = request_data['thal']
             # Thalassemia (0 = normal; 1 = fixed defect; 2 = reversable defect)
 
-    print("Cardiac activated")
+    print(f"Cardiac activated at {current_time}")
 
     # Prepare and parse the data
     df_heart = pd.read_csv('/home/khaichuen/ml-medical/heart.csv')
@@ -216,7 +222,7 @@ def diabetes():
             obesity = request_data['obesity']
             # Obesity ( 0 = false, 1 = true)
 
-    print("Diabetes activated")
+    print(f"Diabetes activated at {current_time}")
 
     # Importing the dataset
     actual_patient_data = pd.read_csv('/home/khaichuen/ml-medical/diabetes.csv')
@@ -293,7 +299,7 @@ def hypertension():
             smoking = request_data['smoking']
             # smoking status: 0 = no, 1 = yes
     
-    print("Hypertension activated")
+    print(f"Hypertension activated at {current_time}")
 
     def user_input_features():
         Age = age
@@ -354,22 +360,22 @@ def hypertension():
 
     ans = prediction.flatten()
     a = ans[0] #depression
-    b = ans[1] #diabetes is not considered due to another page alredy 
+    b = ans[1] #hyperglycemia
     c = ans[2] #hypertension
     if(a<50 and b<50 and c<50):
-        result = "Fit and Healthy"
+        result = "fit and healthy"
     elif(a>50 and a<70 and a>b and a>c):
-        result = 'Low Risk of Depression'
+        result = 'low risk of depression'
     elif(b>50 and b<70 and b>c and b>a):
-        result = 'High Risk of Hyperglycemia'
+        result = 'high risk of hyperglycemia'
     elif(c>50 and c<70 and c>a and c>b):
-        result = "Low Risk of Hypertension"       
+        result = "low risk of hypertension"       
     elif(a>50 and a>b and a>c):
-        result = "High Risk of Depression"
+        result = "high risk of depression"
     elif (b>50 and b>a and b>c):
-         result = "High Risk of Hyperglycemia "
+         result = "high risk of hyperglycemia "
     elif (c>50 and c>a and c>b):     
-         result = "High Risk of Hypertension"
+         result = "high risk of hypertension"
 
     prediction_proba = classifier.score(X_test,y_test)
     
