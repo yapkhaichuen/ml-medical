@@ -16,7 +16,7 @@
 
 ### **ML-Medical**
 
-ML-Medical is our Flask API made to process incoming API request for medical data to return machine learning predictions. Currently powering [Prognosis](prognosis.vercel.app) web framework. However this is not medical advise and can only be used for self testing purposes, please consult a doctor for further information.
+ML-Medical is our Flask API made to process incoming API request for medical data to return machine learning predictions. Currently powering the [Prognosis](prognosis.vercel.app) web framework. However this is not medical advise and can only be used for self testing purposes, please consult a doctor for further information.
 
 ### **Currently available API endpoints**
 - /cardiac
