@@ -14,6 +14,9 @@ import datetime
 KL = pytz.timezone("Asia/Kuala_Lumpur")
 current_time = str(datetime.datetime.now(KL))
 
+# Log IP address
+ip_address = request.headers['X-Real-IP']
+
 # Create the Flask app
 app = Flask(__name__)
 
@@ -77,7 +80,10 @@ def cardiac():
             thal = request_data["thal"]
             # Thalassemia (0 = normal; 1 = fixed defect; 2 = reversable defect)
 
+    print("***************************************")
     print(f"Cardiac activated at {current_time}")
+    print(f"IP address: {ip_address}")
+    print("***************************************")
 
     # Prepare and parse the data
     df_heart = pd.read_csv("/home/khaichuen/ml-medical/heart.csv")
@@ -229,7 +235,10 @@ def diabetes():
             obesity = request_data["obesity"]
             # Obesity ( 0 = false, 1 = true)
 
+    print("***************************************")
     print(f"Diabetes activated at {current_time}")
+    print(f"IP address: {ip_address}")
+    print("***************************************")
 
     # Importing the dataset
     actual_patient_data = pd.read_csv("/home/khaichuen/ml-medical/diabetes.csv")
@@ -356,7 +365,10 @@ def hypertension():
             smoking = request_data["smoking"]
             # smoking status: 0 = no, 1 = yes
 
+    print("***************************************")
     print(f"Hypertension activated at {current_time}")
+    print(f"IP address: {ip_address}")
+    print("***************************************")
 
     def user_input_features():
         Age = age
