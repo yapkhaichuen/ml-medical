@@ -77,7 +77,9 @@ def cardiac():
             thal = request_data["thal"]
             # Thalassemia (0 = normal; 1 = fixed defect; 2 = reversable defect)
 
+    print("_______________________________________")
     print(f"Cardiac activated at {current_time}")
+    print("_______________________________________")
 
     # Prepare and parse the data
     df_heart = pd.read_csv("/home/khaichuen/ml-medical/heart.csv")
@@ -229,7 +231,9 @@ def diabetes():
             obesity = request_data["obesity"]
             # Obesity ( 0 = false, 1 = true)
 
+    print("_______________________________________")
     print(f"Diabetes activated at {current_time}")
+    print("_______________________________________")
 
     # Importing the dataset
     actual_patient_data = pd.read_csv("/home/khaichuen/ml-medical/diabetes.csv")
@@ -356,7 +360,9 @@ def hypertension():
             smoking = request_data["smoking"]
             # smoking status: 0 = no, 1 = yes
 
+    print("_______________________________________")
     print(f"Hypertension activated at {current_time}")
+    print("_______________________________________")
 
     def user_input_features():
         Age = age
